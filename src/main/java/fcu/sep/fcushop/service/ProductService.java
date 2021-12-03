@@ -26,14 +26,25 @@ public class ProductService {
       return connection.createQuery(query).executeAndFetch(Product.class);
     }
   }
+
   public List<Product> getProducts(String keyword) {
     try (Connection connection = sql2oDbHandler.getConnector().open()) {
       String query = "select ID id, NAME name, IMAGE_URL imageUrl, PRICE price, DESCRIPTION description"
-          + " from PRODUCT where NAME=:keyword";
+          + " from PRODUCT where name like :keyword";
 
       return connection.createQuery(query)
-        .addParameter("keyword",keyword)
-        .executeAndFetch(Product.class);
+          .addParameter("keyword", "%" + keyword + "%")
+          .executeAndFetch(Product.class);
+    }
+  }
+
+  public List<Product> addProducts(String id, String name, String imageUrl, String price, String description) {
+    try (Connection connection = sql2oDbHandler.getConnector().open()) {
+      String query = "insert into PRODUCT value (:id,:name,:imageUrl,:price,:description)";
+
+      return connection.createQuery(query)
+          .addParameter("id,name,imageUrl,price,description", id, name, imageUrl, price, description)
+          .executeAndFetch(Product.class);
     }
   }
 }
