@@ -38,13 +38,42 @@ public class ProductService {
     }
   }
 
-  public List<Product> addProducts(String id, String name, String imageUrl, String price, String description) {
+  public String aaAddProduct(String name, String imgurl, int price,
+                              String description) {
     try (Connection connection = sql2oDbHandler.getConnector().open()) {
-      String query = "insert into PRODUCT value (:id,:name,:imageUrl,:price,:description)";
+      String query = "insert into "
+          + "product (NAME, IMAGE_URL, PRICE, DESCRIPTION) "
+          + "VALUES(:name, :imgurl, :price, :description)";
 
-      return connection.createQuery(query)
-          .addParameter("id,name,imageUrl,price,description", id, name, imageUrl, price, description)
-          .executeAndFetch(Product.class);
+      System.out.println(query);
+      connection.createQuery(query)
+          .addParameter("name", name)
+          .addParameter("imgurl", imgurl)
+          .addParameter("price", price)
+          .addParameter("description", description)
+          .executeUpdate();
+      return "Success";
     }
   }
+
+  /**
+   * productservice.
+   */
+
+  public String aaUpdateProduct(String name, int price) {
+    try (Connection connection = sql2oDbHandler.getConnector().open()) {
+      String query = "Update product "
+          + "SET PRICE= :price WHERE NAME = :book_name";
+
+      System.out.println(query);
+      connection.createQuery(query)
+          .addParameter("name", name)
+          .addParameter("price", price)
+          .executeUpdate();
+      return "Success";
+
+    }
+  }
+
+
 }
