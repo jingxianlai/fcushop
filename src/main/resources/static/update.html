@@ -65,15 +65,43 @@
         </div>
     </div>
 </nav>
-<form method="post">
-    <div class="form-group">
-        <label>id:</label>
-        <input type="text" class="form-control" id="id">
-        <label>change price:</label>
-        <input type="text" class="form-control" id="changeprice">
-    </div>
-    <input class="btn btn-outline-success" type="button" id="changeproduct" value="確定">
-</form>
+    <h2 class="mt-3" align="center">新增商品</h2>
+    <form id="new_product_form" align="center">
+        <div id="update_product_form" align="center" class="form-group">
+            <label class="label_input">name:</label>
+            <input  class="text_field" type="text" class="form-control" id="book_name_text">
+        </div>
+        <div class="form-group">
+            <label class="label_input">changeprice:</label>
+            <input class="text_field" type="text" class="form-control" id="price_text">
+        </div>
+        <input class="btn btn-outline-success" type="button" id="changeproduct" value="確定">
+    </form>
+<style>
+    #changeproduct{
+        margin-top: 5px;
+    }
+    .label_input {
+        margin-top: 3px;
+        font-size: 14px;
+        font-family: 宋體;
+        width: 70px;
+        height: 28px;
+        line-height: 28px;
+        text-align: center;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+    .text_field {
+        margin-top: 3px;
+        width: 278px;
+        height: 28px;
+        background-color: #ececea;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border: 0;
+    }
+</style>
 <!-- Optional JavaScript; choose one of the two! -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -89,9 +117,7 @@
 -->
 
 <script>
-var i = 0;
-    $('#add_button').click( function(){
-        //$('#game_name_text').val(++i);
+    $('#changeproduct').click( function(){
         updateproduct();
     });
 
@@ -117,7 +143,7 @@ var i = 0;
             url: "updateproduct" ,
 
             data: {
-                book_name : $('#book_name_text').val(),
+                name : $('#book_name_text').val(),
                 price : $('#price_text').val(),
             },
 
@@ -128,10 +154,13 @@ var i = 0;
             dataType : "text",
         })
         .done(function( text ) {
-            if(text == "Success")
+            if(text == "Success"){
                 alert("pass");
-            else
+                location.href="index.html";
+                }
+            else{
                 alert("fail");
+                }
         })
         .fail( function(xhr, status, errorThrown) {
             console.log( "Sorry, there was a problem!" );
